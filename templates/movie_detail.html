@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.title }} - TMDB{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        {% if movie.poster_path %}
+        <img src="{{ poster_base_url }}{{ movie.poster_path }}" class="img-fluid rounded" alt="{{ movie.title }}">
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <h1>{{ movie.title }}</h1>
+        <p class="lead">{{ movie.tagline }}</p>
+
+        <div class="mb-3">
+            <strong>Avaliação:</strong> {{ "%.1f"|format(movie.vote_average) }}/10
+        </div>
+
+        <div class="mb-3">
+            <strong>Data de Lançamento:</strong> {{ movie.release_date }}
+        </div>
+
+        <div class="mb-3">
+            <strong>Gêneros:</strong>
+            {% for genre in movie.genres %}
+            <span class="badge bg-secondary">{{ genre.name }}</span>
+            {% endfor %}
+        </div>
+
+        <h3>Sinopse</h3>
+        <p>{{ movie.overview }}</p>
+
+        {% if movie.credits.cast %}
+        <h3>Elenco Principal</h3>
+        <div class="mb-3">
+            {% for actor in movie.credits.cast[:5] %}
+            <span class="badge bg-primary">{{ actor.name }} como {{ actor.character }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

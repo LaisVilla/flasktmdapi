@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Filmes Populares - TMDB{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Filmes Populares</h1>
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for movie in movies %}
+    <div class="col">
+        <div class="card h-100">
+            {% if movie.poster_path %}
+            <img src="{{ poster_base_url }}{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ movie.title }}</h5>
+                <p class="card-text">{{ movie.overview[:150] }}...</p>
+                <a href="{{ url_for('movie_detail', movie_id=movie.id) }}" class="btn btn-primary">Ver detalhes</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

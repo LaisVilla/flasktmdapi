@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Buscar Filmes - TMDB{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Buscar Filmes</h1>
+
+<form action="{{ url_for('search') }}" method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="query" class="form-control" placeholder="Digite o nome do filme..." value="{{ query }}">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+{% if movies %}
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for movie in movies %}
+    <div class="col">
+        <div class="card h-100">
+            {% if movie.poster_path %}
+            <img src="{{ poster_base_url }}{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ movie.title }}</h5>
+                <p class="card-text">{{ movie.overview[:150] }}...</p>
+                <a href="{{ url_for('movie_detail', movie_id=movie.id) }}" class="btn btn-primary">Ver detalhes</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% elif query %}
+<p>Nenhum resultado encontrado para "{{ query }}"</p>
+{% endif %}
+{% endblock %}
